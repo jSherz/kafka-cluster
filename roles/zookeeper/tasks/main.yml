@@ -1,0 +1,65 @@
+- name: download Zookeeper
+  unarchive:
+    src: "{{ zookeeper_pkg }}"
+    remote_src: yes
+    dest: /opt
+    creates: "{{ zookeeper_dir }}/bin/zkServer.sh"
+
+- name: create Zookeeper group
+  group:
+    gid: 10003
+    name: zookeeper
+
+- name: create Zookeeper user
+  user:
+    uid: 10003
+    name: zookeeper
+    group: zookeeper
+    shell: /bin/bash
+
+- name: create Zookeeper data directory
+  file:
+    state: directory
+    path: "{{ zookeeper_data_dir }}"
+    owner: zookeeper
+    group: zookeeper
+    mode: "0750"
+
+- name: create Zookeeper log directory
+  file:
+    state: directory
+    dest: "{{ zookeeper_log_dir }}"
+    owner: zookeeper
+    group: zookeeper
+    mode: "0750"
+
+- name: set permissions of Kookeeper home
+  file:
+    state: directory
+    path: "{{ zookeeper_dir }}"
+    owner: zookeeper
+    group: zookeeper
+    recurse: yes
+
+- name: set Zookeeper ID
+  template:
+    src: myid.j2
+    dest: /var/lib/zookeeper/myid
+
+- name: install Zookeeper config
+  template:
+    src: zoo.cfg.j2
+    dest: "{{ zookeeper_dir }}/conf/zoo.cfg"
+    owner: zookeeper
+    group: zookeeper
+
+- name: install Zookeeper SystemD service
+  template:
+    src: zookeeper.service.j2
+    dest: /lib/systemd/system/zookeeper.service
+
+- name: enable and start Zookeeper
+  systemd:
+    name: zookeeper
+    state: started
+    daemon_reload: yes

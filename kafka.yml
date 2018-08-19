@@ -1,0 +1,12 @@
+---
+- hosts: *
+  become: yes
+  vars_files:
+    - shared_vars.yml
+  vars:
+    kafka_pkg: http://apache.mirrors.nublue.co.uk/kafka/2.0.0/kafka_2.12-2.0.0.tgz
+    kafka_dir: /opt/kafka_2.12-2.0.0
+    kafka_data_dir: /var/lib/kafka
+  roles:
+    - base
+    - kafka

@@ -1,0 +1,50 @@
+- name: set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: install all locales
+  apt:
+    name: locales-all
+
+- name: fix boot hang from lack of randomness
+  apt:
+    name: rng-tools5
+
+- name: create the james group
+  group:
+    name: james
+    gid: 10001
+
+- name: create the james user
+  user:
+    name: james
+    uid: 10001
+    group: 10001
+    groups: sudo
+
+- name: add james' SSH key
+  authorized_key:
+    user: james
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3Eru8kx+r3voeopwcM5cET36rVNYvKEeplIbg+Iw5j james@nice-goat-bro"
+
+- name: disable swap
+  sysctl:
+    name: vm.swappiness
+    value: 0
+
+- name: install Java
+  apt:
+    name: openjdk-11-jre-headless
+    update_cache: yes
+
+- name: setup ZK hosts file entries
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ item.value.ip }} {{ item.key }}"
+  loop: "{{ zookeeper_hosts|dict2items }}"
+
+- name: setup Kafka hosts file entries
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ item.value.ip }} {{ item.key }}"
+  loop: "{{ kafka_hosts|dict2items }}"

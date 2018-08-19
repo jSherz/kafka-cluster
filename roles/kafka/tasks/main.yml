@@ -1,0 +1,40 @@
+- name: download Kafka
+  unarchive:
+    src: "{{ kafka_pkg }}"
+    remote_src: yes
+    dest: /opt
+    creates: "{{ kafka_dir }}/bin/kafka-server-start.sh"
+
+- name: create Kafka group
+  group:
+    gid: 10002
+    name: kafka
+
+- name: create Kafka user
+  user:
+    uid: 10002
+    name: kafka
+    group: kafka
+
+- name: create Kafka data directory
+  file:
+    state: directory
+    path: "{{ kafka_data_dir }}"
+    owner: kafka
+    group: kafka
+    mode: "0750"
+
+- name: set permissions of Kafka home
+  file:
+    state: directory
+    path: "{{ kafka_dir }}"
+    owner: kafka
+    group: kafka
+    recurse: yes
+
+- name: install Kafka config
+  template:
+    src: server.properties.j2
+    dest: "{{ kafka_dir }}/config/server.properties"
+    owner: kafka
+    group: kafka

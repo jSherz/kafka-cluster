@@ -1,0 +1,22 @@
+---
+zookeeper_hosts:
+  zk1.int.jsherz.com:
+    id: 1
+    ip: 10.0.6.3
+  zk2.int.jsherz.com:
+    id: 2
+    ip: 10.0.6.4
+  zk3.int.jsherz.com:
+    id: 3
+    ip: 10.0.6.5
+
+kafka_hosts:
+  k1.int.jsherz.com:
+    id: 1
+    ip: 10.0.6.6
+  k2.int.jsherz.com:
+    id: 2
+    ip: 10.0.6.7
+  k3.int.jsherz.com:
+    id: 3
+    ip: 10.0.6.8
