@@ -37,6 +37,8 @@
     uid: 10001
     group: 10001
     groups: sudo
+    shell: bash
+    password: "{{ james_password }}"
 
 - name: add james' SSH key
   authorized_key:
