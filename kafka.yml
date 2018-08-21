@@ -1,12 +1,19 @@
 ---
-- hosts: *
+- hosts: "*"
   become: yes
+  become_user: root
+  # Required on first run:
+  user: root
+  # After first run:
+  # user: james
   vars_files:
-    - shared_vars.yml
+    - vars/secret_vars.yml
+    - vars/shared_vars.yml
   vars:
     kafka_pkg: http://apache.mirrors.nublue.co.uk/kafka/2.0.0/kafka_2.12-2.0.0.tgz
     kafka_dir: /opt/kafka_2.12-2.0.0
     kafka_data_dir: /var/lib/kafka
+    kafka_log_dir: /var/log/kafka
   roles:
     - base
     - kafka

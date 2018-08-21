@@ -47,3 +47,23 @@ playbooks to the user you're connecting with.
 
 **NB:** See the caveats in "Out of scope" before attempting to use these
 playbooks as a base for a production cluster.
+
+## ToDo
+
+* [ ] SSHD config / lockdown
+
+* [ ] Firewall config
+
+* [x] Basic three node Zookeeper quorum
+
+* [x] Basic three node Kafka cluster
+
+* [ ] Utility instance playbook
+
+* [ ] Schema registry
+
+* [ ] REST proxy
+
+* [ ] Topics UI
+
+* [ ] Control centre

@@ -2,7 +2,10 @@
 - hosts: "*"
   become: yes
   become_user: root
-  user: root
+  # Required on first run:
+  # user: root
+  # After first run:
+  user: james
   vars_files:
     - vars/secret_vars.yml
     - vars/shared_vars.yml

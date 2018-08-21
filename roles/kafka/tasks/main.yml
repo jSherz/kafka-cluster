@@ -24,6 +24,14 @@
     group: kafka
     mode: "0750"
 
+- name: create kafka log directory
+  file:
+    state: directory
+    dest: "{{ kafka_log_dir }}"
+    owner: kafka
+    group: kafka
+    mode: "0750"
+
 - name: set permissions of Kafka home
   file:
     state: directory
@@ -32,9 +40,26 @@
     group: kafka
     recurse: yes
 
+- name: up Kafka's file descriptor limits
+  copy:
+    src: kafka-limits.conf
+    dest: /etc/security/limits.d/kafka-limits.conf
+
 - name: install Kafka config
   template:
     src: server.properties.j2
     dest: "{{ kafka_dir }}/config/server.properties"
     owner: kafka
     group: kafka
+
+- name: install Kafka SystemD service
+  template:
+    src: kafka.service.j2
+    dest: /lib/systemd/system/kafka.service
+
+- name: enable and start Kafka
+  systemd:
+    name: kafka
+    state: started
+    daemon_reload: yes
+    enabled: yes
