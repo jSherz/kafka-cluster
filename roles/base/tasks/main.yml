@@ -6,9 +6,25 @@
   apt:
     name: locales-all
 
-- name: fix boot hang from lack of randomness
+- name: rngd requires entropy sources which the VM doesn't have
   apt:
+    state: absent
     name: rng-tools5
+
+- name: don't create confusing menu.lst that isn't used
+  apt:
+    state: absent
+    name: grub-legacy-ec2
+
+- name: give grub a timeout so we can boot through recovery mode to avoid entropy issues
+  copy:
+    src: 50-cloudimg-settings.cfg
+    dest: /etc/default/grub.d/50-cloudimg-settings.cfg
+  register: grub_settings
+
+- name: update grub config with timeout
+  command: /usr/sbin/update-grub
+  when: grub_settings.changed
 
 - name: create the james group
   group:
