@@ -2,4 +2,4 @@
 
 set -e
 
-ansible-playbook -i inv/zookeeper_inventory zookeeper.yml
+ansible-playbook -i inv/zookeeper_inventory --ask-become-pass zookeeper.yml

@@ -3,9 +3,9 @@
   become: yes
   become_user: root
   # Required on first run:
-  user: root
+  # user: root
   # After first run:
-  # user: james
+  user: james
   vars_files:
     - vars/secret_vars.yml
     - vars/shared_vars.yml
