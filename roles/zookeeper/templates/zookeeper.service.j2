@@ -5,3 +5,6 @@ ExecStop={{ zookeeper_dir }}/bin/zkServer.sh stop
 Environment="ZOO_DATADIR={{ zookeeper_data_dir }}" "ZOO_LOG_DIR={{ zookeeper_log_dir }}"
 User=zookeeper
 PIDFile={{ zookeeper_data_dir }}/zookeeper_server.pid
+
+[Install]
+WantedBy=multi-user.target

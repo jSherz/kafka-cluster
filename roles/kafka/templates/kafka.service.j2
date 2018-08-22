@@ -3,3 +3,6 @@ Type=simple
 ExecStart={{ kafka_dir }}/bin/kafka-server-start.sh {{ kafka_dir }}/config/server.properties
 Environment="LOG_DIR={{ kafka_log_dir }}"
 User=kafka
+
+[Install]
+WantedBy=multi-user.target
